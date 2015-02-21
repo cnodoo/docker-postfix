@@ -1,9 +1,9 @@
-FROM dawi2332/etcdctl:v0.4.6
+FROM dawi2332/ubuntu.rsyslog
 MAINTAINER dawi2332@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python rsyslog-gnutls
+RUN apt-get update && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python
 
 # copy postfix config files
 COPY assets/etc/postfix/ /etc/postfix/
@@ -19,10 +19,6 @@ RUN postconf -eM policy-spf/unix="policy-spf unix - n n - - spawn user=nobody ar
 
 # create /var/spool/postfix/hold
 RUN mkdir -p /var/spool/postfix/hold && chmod 700 /var/spool/postfix/hold && chown postfix /var/spool/postfix/hold
-
-# copy rsyslog config files and papertrail.com TLS cert
-COPY assets/etc/rsyslog.d/ /etc/rsyslog.d/
-COPY assets/etc/papertrail-bundle.pem /etc/papertrail-bundle.pem
 
 COPY docker-entrypoint.sh /
 COPY init.d /docker-entrypoint-init.d

@@ -8,5 +8,5 @@ if [ "$1" = 'postfix' ]; then
             done
     fi
 
-    /usr/lib/postfix/master -d
+    exec /usr/lib/postfix/master -d
 fi
