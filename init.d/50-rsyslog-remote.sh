@@ -1,10 +1,10 @@
 #! /bin/sh
+set +e
 
-rm /etc/rsyslog.d/50-default.conf
+RSYSLOG_REMOTE=`etcdctl get /x44.email/services/rsyslog/remotehost`
+if [ ! -z $RSYSLOG_REMOTE ]; then
+    echo "rsyslog remote host: $RSYSLOG_REMOTE"
+    echo "*.* $RSYSLOG_REMOTE" > /etc/rsyslog.d/50-remote.conf
 
-REMOTE_HOST=`etcdctl get /x44.email/services/rsyslog/remotehost`
-if [ ! -z $REMOTE_HOST ]; then
-    echo "rsyslog remote host: $REMOTE_HOST"
-    echo "*.* $REMOTE_HOST" > /etc/rsyslog.d/50-remote.conf
+    rm /etc/rsyslog.d/50-default.conf
 fi
-REMOTE_HOST=
