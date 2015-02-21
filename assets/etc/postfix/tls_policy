@@ -1,0 +1,7 @@
+google.com		secure
+gmail.com		secure match=google.com:.google.com
+googlemail.com		secure match=google.com:.google.com
+yahoo.com		secure match=yahoodns.net:.yahoodns.net
+outlook.com		secure
+hotmail.com		secure match=outlook.com:.outlook.com
+live.com		secure match=outlook.com:.outlook.com
