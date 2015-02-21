@@ -1,7 +1,7 @@
 #! /bin/sh
 set +e
 
-. /init.d/functions.sh
+. /docker-entrypoint-init.d/functions.sh
 
 prefix=/x44.email/containers/$CONTAINER/postfix/
 

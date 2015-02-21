@@ -1,7 +1,7 @@
 #! /bin/sh
 set +e
 
-. /init.d/functions.sh
+. /docker-entrypoint-init.d/functions.sh
 
 cert=/etc/ssl/certs/postfix.pem
 key=/etc/ssl/private/postfix.key
