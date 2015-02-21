@@ -2,7 +2,7 @@
 
 rm /etc/rsyslog.d/50-default.conf
 
-REMOTE_HOST=`etcdtcl get /x44.email/services/rsyslog/remotehost`
+REMOTE_HOST=`etcdctl get /x44.email/services/rsyslog/remotehost`
 if [[ ! -z $REMOTE_HOST ]]
 then
     echo "rsyslog remote host: $REMOTE_HOST"

@@ -18,7 +18,6 @@ ExecStartPre=/usr/bin/docker pull dawi2332/postfix
 ExecStart=/usr/bin/docker run --name %n --env-file=/etc/environment \
 	-p ${COREOS_PUBLIC_IPV4}:25:25 -p ${COREOS_PUBLIC_IPV4}:587:587 \
 	-e ETCDCTL_PEERS=${COREOS_PUBLIC_IPV4}:4001 -e CONTAINER=%n \
-	-h `etcdctl get /x44.email/containers/%n/hostname`
 	dawi2332/postfix
 ExecStop=/usr/bin/docker stop %n
 
