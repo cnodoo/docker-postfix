@@ -1,0 +1,9 @@
+# Privacy: Remove headers that reveal the user's IP address.
+/^Received:/            IGNORE
+/^X-Received:/          IGNORE
+/^X-Originating-IP:/    IGNORE
+
+# Privacy: Remove headers that reveal the user's software versions.
+/^User-Agent:/          IGNORE
+/^X-Enigmail:/          IGNORE
+/^X-Mailer:/            IGNORE
