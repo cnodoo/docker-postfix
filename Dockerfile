@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y postfix postfix-pcre postfix-policyd-sp
 
 # copy postfix config files
 COPY assets/etc/postfix/ /etc/postfix/
+RUN postmap hash:/etc/postfix/tls_policy
 
 # copy aliases and update hash
 COPY assets/etc/aliases /etc/aliases
