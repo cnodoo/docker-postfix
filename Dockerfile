@@ -20,6 +20,8 @@ RUN postconf -eM policy-spf/unix="policy-spf unix - n n - - spawn user=nobody ar
 # create /var/spool/postfix/hold
 RUN mkdir -p /var/spool/postfix/hold && chmod 700 /var/spool/postfix/hold && chown postfix /var/spool/postfix/hold
 
+COPY assets/etc/supervisor /etc/supervisor
+
 COPY docker-entrypoint.sh /
 COPY init.d /docker-entrypoint-init.d
 ENTRYPOINT ["/docker-entrypoint.sh"]

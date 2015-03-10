@@ -8,7 +8,7 @@ if [ "$1" = 'postfix' ]; then
             done
     fi
 
-    exec /usr/lib/postfix/master -d
+    exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 fi
 
 exec "$@"
