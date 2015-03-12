@@ -3,7 +3,7 @@ MAINTAINER dawi2332@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python
+RUN apt-get update -qq && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python ca-certificates
 
 # copy postfix config files
 COPY assets/etc/postfix/ /etc/postfix/

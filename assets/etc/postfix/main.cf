@@ -62,6 +62,7 @@ disable_vrfy_command = yes
 
 tls_preempt_cipherlist = yes
 
+smtpd_tls_CApath = /etc/ssl/certs
 smtpd_tls_eecdh_grade = strong
 smtpd_tls_protocols= !SSLv2, !SSLv3
 smtpd_tls_ciphers = high
