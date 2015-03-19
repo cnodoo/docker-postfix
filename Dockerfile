@@ -3,7 +3,7 @@ MAINTAINER dawi2332@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -qq && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python ca-certificates
+RUN apt-get update -qq && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python ca-certificates python-setuptools
 
 # copy postfix config files
 COPY assets/etc/postfix/ /etc/postfix/
@@ -19,9 +19,18 @@ RUN postconf -eM submission-cleanup/unix="submission-cleanup unix n - - - 0 clea
 RUN postconf -eM policy-spf/unix="policy-spf unix - n n - - spawn user=nobody argv=/usr/bin/policyd-spf"
 
 # create /var/spool/postfix/hold
-RUN mkdir -p /var/spool/postfix/hold && chmod 700 /var/spool/postfix/hold && chown postfix /var/spool/postfix/hold
+RUN mkdir -p /var/spool/postfix/hold && \
+	chmod 700 /var/spool/postfix/hold && \
+	chown postfix /var/spool/postfix/hold
 
 COPY assets/etc/supervisor /etc/supervisor
+
+COPY supervisor-stdout /tmp/supervisor-stdout
+RUN cd /tmp/supervisor-stdout && python setup.py install && \
+	cd / && rm -rf /tmp/supervisor-stdout
+
+RUN touch /var/log/auth.log /var/log/mail.log /var/log/syslog && \
+	chown syslog:syslog /var/log/auth.log /var/log/mail.log /var/log/syslog
 
 COPY docker-entrypoint.sh /
 COPY init.d /docker-entrypoint-init.d
