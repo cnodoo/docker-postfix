@@ -25,13 +25,6 @@ RUN mkdir -p /var/spool/postfix/hold && \
 
 COPY assets/etc/supervisor /etc/supervisor
 
-COPY supervisor-stdout /tmp/supervisor-stdout
-RUN cd /tmp/supervisor-stdout && python setup.py install && \
-	cd / && rm -rf /tmp/supervisor-stdout
-
-RUN touch /var/log/auth.log /var/log/mail.log /var/log/syslog && \
-	chown syslog:syslog /var/log/auth.log /var/log/mail.log /var/log/syslog
-
 COPY docker-entrypoint.sh /
 COPY init.d /docker-entrypoint-init.d
 ENTRYPOINT ["/docker-entrypoint.sh"]
