@@ -1,6 +1,12 @@
 FROM dawi2332/ubuntu.rsyslog
 MAINTAINER dawi2332@gmail.com
 
+EXPOSE 25
+EXPOSE 587
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["postfix"]
+
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -qq && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python ca-certificates python-setuptools
@@ -23,12 +29,13 @@ RUN mkdir -p /var/spool/postfix/hold && \
 	chmod 700 /var/spool/postfix/hold && \
 	chown postfix /var/spool/postfix/hold
 
+RUN postconf -e smtpd_tls_dh1024_param_file=\${config_directory}/dh2048.pem
+
 COPY assets/etc/supervisor /etc/supervisor
 
 COPY docker-entrypoint.sh /
 COPY init.d /docker-entrypoint-init.d
-ENTRYPOINT ["/docker-entrypoint.sh"]
 
-EXPOSE 25
-EXPOSE 587
-CMD ["postfix"]
+ADD dh512.pem /etc/postfix/dh512.pem
+ADD dh1024.pem /etc/postfix/dh1024.pem
+ADD dh2048.pem /etc/postfix/dh2048.pem
