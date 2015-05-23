@@ -61,7 +61,7 @@ inet_protocols = all
 disable_vrfy_command = yes
 
 tls_preempt_cipherlist = yes
-tls_high_cipherlist = aNULL:-aNULL:kEECDH:kEDH:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:@STRENGTH
+tls_high_cipherlist = kEECDH:kEDH:!aNULL:!eNULL:!EXPORT:!LOW:!3DES:!MD5:!PSK:!RC4:!SEED:@STRENGTH
 tls_ssl_options = NO_COMPRESSION
 
 smtpd_tls_CApath = /etc/ssl/certs

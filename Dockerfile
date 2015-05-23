@@ -36,6 +36,6 @@ COPY assets/etc/supervisor /etc/supervisor
 COPY docker-entrypoint.sh /
 COPY init.d /docker-entrypoint-init.d
 
-ADD dh512.pem /etc/postfix/dh512.pem
-ADD dh1024.pem /etc/postfix/dh1024.pem
-ADD dh2048.pem /etc/postfix/dh2048.pem
+COPY dh512.pem /etc/postfix/dh512.pem
+COPY dh1024.pem /etc/postfix/dh1024.pem
+COPY dh2048.pem /etc/postfix/dh2048.pem
