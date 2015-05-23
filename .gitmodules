@@ -1,4 +1,0 @@
-[submodule "supervisor-stdout"]
-	path = supervisor-stdout
-	url = https://github.com/dawi2332/supervisor-stdout.git
-	branch = master
