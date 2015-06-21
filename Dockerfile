@@ -1,4 +1,4 @@
-FROM dawi2332/ubuntu.rsyslog
+FROM dawi2332/alpine.rsyslog
 MAINTAINER dawi2332@gmail.com
 
 EXPOSE 25
@@ -7,9 +7,9 @@ EXPOSE 587
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["postfix"]
 
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN apt-get update -qq && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python ca-certificates python-setuptools && rm -rf /var/lib/apt/lists/*
+RUN apk add --update postfix postfix-pcre ca-certificates py-pip py-ipaddr \
+	&& pip install pydns pyspf pypolicyd-spf \
+	&& rm -rf /var/cache/apk/*
 
 # copy postfix config files
 COPY assets/etc/postfix/ /etc/postfix/
