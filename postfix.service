@@ -24,6 +24,7 @@ ExecStart=/bin/bash -c \
 -h `etcdctl get /x44.email/containers/%n/hostname` \
 dawi2332/postfix"
 ExecStop=/usr/bin/docker stop %n
+ExecStopPost=/usr/bin/docker rm %n
 Restart=on-failure
 
 [X-Fleet]

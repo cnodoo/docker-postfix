@@ -9,7 +9,7 @@ CMD ["postfix"]
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -qq && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python ca-certificates python-setuptools
+RUN apt-get update -qq && apt-get install -y postfix postfix-pcre postfix-policyd-spf-python ca-certificates python-setuptools && rm -rf /var/lib/apt/lists/*
 
 # copy postfix config files
 COPY assets/etc/postfix/ /etc/postfix/
