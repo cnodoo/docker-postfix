@@ -20,8 +20,8 @@ COPY assets/etc/aliases /etc/aliases
 RUN newaliases
 
 # add/modify services in /etc/postfix/master.cf
-RUN postconf -eM submission/inet="submission inet n - - - - smtpd -o syslog_name=postfix/submission -o smtpd_tls_security_level=encrypt -o smtpd_sasl_auth_enable=yes -o smtpd_client_restrictions=permit_sasl_authenticated,reject -o smtpd_sender_restrictions=reject_sender_login_mismatch,permit -o milter_macro_daemon_name=ORIGINATING -o cleanup_service_name=submission-cleanup"
-RUN postconf -eM submission-cleanup/unix="submission-cleanup unix n - - - 0 cleanup -o syslog_name=postfix/submission -o header_checks=pcre:\${config_directory}/header_checks"
+RUN postconf -eM submission/inet="submission inet n - n - - smtpd -o syslog_name=postfix/submission -o smtpd_tls_security_level=encrypt -o smtpd_sasl_auth_enable=yes -o smtpd_client_restrictions=permit_sasl_authenticated,reject -o smtpd_sender_restrictions=reject_sender_login_mismatch,permit -o milter_macro_daemon_name=ORIGINATING -o cleanup_service_name=submission-cleanup"
+RUN postconf -eM submission-cleanup/unix="submission-cleanup unix n - n - 0 cleanup -o syslog_name=postfix/submission -o header_checks=pcre:\${config_directory}/header_checks"
 RUN postconf -eM policy-spf/unix="policy-spf unix - n n - - spawn user=nobody argv=/usr/bin/policyd-spf"
 
 # create /var/spool/postfix/hold
