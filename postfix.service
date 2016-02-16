@@ -1,11 +1,11 @@
 [Unit]
 Description=Postfix MTA service
 
-Requires=etcd.service
+Requires=etcd2.service
 Requires=docker.service
 Requires=flanneld.service
 
-After=etcd.service
+After=etcd2.service
 After=docker.service
 After=flanneld.service
 
