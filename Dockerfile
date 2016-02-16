@@ -24,10 +24,11 @@ RUN postconf -eM submission/inet="submission inet n - n - - smtpd -o syslog_name
 RUN postconf -eM submission-cleanup/unix="submission-cleanup unix n - n - 0 cleanup -o syslog_name=postfix/submission -o header_checks=pcre:\${config_directory}/header_checks"
 RUN postconf -eM policy-spf/unix="policy-spf unix - n n - - spawn user=nobody argv=/usr/bin/policyd-spf"
 
-# create /var/spool/postfix/hold
+# create directories usually created by postfix init script
 RUN mkdir -p /var/spool/postfix/hold && \
 	chmod 700 /var/spool/postfix/hold && \
 	chown postfix /var/spool/postfix/hold
+RUN mkdir -p /var/mail
 
 RUN postconf -e smtpd_tls_dh1024_param_file=\${config_directory}/dh2048.pem
 
@@ -36,6 +37,4 @@ COPY assets/etc/supervisor /etc/supervisor
 COPY docker-entrypoint.sh /
 COPY init.d /docker-entrypoint-init.d
 
-COPY dh512.pem /etc/postfix/dh512.pem
-COPY dh1024.pem /etc/postfix/dh1024.pem
 COPY dh2048.pem /etc/postfix/dh2048.pem

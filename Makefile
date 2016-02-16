@@ -6,15 +6,7 @@ DOCKER_TAG=$(DOCKER_USERNAME)/$(DOCKER_NAME)
 
 all:
 
-deps: dh512.pem dh1024.pem dh2048.pem
-
-dh512.pem:
-	openssl dhparam -out dh512.tmp 512 && mv dh512.tmp $@
-	chmod 644 $@
-
-dh1024.pem:
-	openssl dhparam -out dh1024.tmp 1024 && mv dh1024.tmp $@
-	chmod 644 $@
+deps: dh2048.pem
 
 dh2048.pem:
 	openssl dhparam -out dh2048.tmp 2048 && mv dh2048.tmp $@
