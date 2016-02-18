@@ -9,7 +9,7 @@ CMD ["postfix"]
 
 RUN apk add --update postfix postfix-pcre ca-certificates py-pip py-ipaddr \
 	&& pip install pydns pyspf pypolicyd-spf \
-	&& rm -rf /var/cache/apk/*
+	&& rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 # copy postfix config files
 COPY assets/etc/postfix/ /etc/postfix/
@@ -29,8 +29,6 @@ RUN mkdir -p /var/spool/postfix/hold && \
 	chmod 700 /var/spool/postfix/hold && \
 	chown postfix /var/spool/postfix/hold
 RUN mkdir -p /var/mail
-
-RUN postconf -e smtpd_tls_dh1024_param_file=\${config_directory}/dh2048.pem
 
 COPY assets/etc/supervisor /etc/supervisor
 

@@ -63,6 +63,11 @@ tls_high_cipherlist = kEECDH:kEDH:!aNULL:!eNULL:!EXPORT:!LOW:!3DES:!MD5:!PSK:!RC
 tls_ssl_options = NO_COMPRESSION
 
 smtpd_tls_CApath = /etc/ssl/certs
+smtpd_tls_cert_file = /etc/ssl/certs/smtpd-rsa.pem
+smtpd_tls_key_file = /etc/ssl/private/smtpd-rsa.key
+smtpd_tls_eccert_file = /etc/ssl/certs/smtpd-ecdsa.pem
+smtpd_tls_eckey_file = /etc/ssl/private/smtpd-ecdsa.key
+smtpd_tls_dh1024_param_file=${config_directory}/dh2048.pem
 smtpd_tls_eecdh_grade = strong
 smtpd_tls_protocols= !SSLv2, !SSLv3
 smtpd_tls_ciphers = high

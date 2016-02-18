@@ -17,10 +17,29 @@ EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill %n
 ExecStartPre=-/usr/bin/docker rm %n
 ExecStartPre=/usr/bin/docker pull dawi2332/postfix
-ExecStart=/usr/bin/docker run --name %n --env-file=/etc/environment \
--p ${COREOS_PRIVATE_IPV4}:25:25 -p ${COREOS_PRIVATE_IPV4}:587:587 \
--e ETCDCTL_PEERS=${COREOS_PRIVATE_IPV4}:4001 -e CONTAINER=%n \
-dawi2332/postfix
+ExecStartPre=-/usr/bin/bash -c 'rm -rf /etc/ssl/{private,certs}/smtp-{ecdsa,rsa}.{key,pem}'
+ExecStartPre=/usr/bin/bash -c 'etcdctl get /x44.email/containers/%n/postfix/smtp-rsa.key \
+	> /etc/ssl/private/smtp-rsa.key || false'
+ExecStartPre=/usr/bin/bash -c 'etcdctl get /x44.email/containers/%n/postfix/smtp-rsa.pem \
+	> /etc/ssl/certs/smtp-rsa.pem || false'
+ExecStartPre=/usr/bin/bash -c 'etcdctl get /x44.email/containers/%n/postfix/smtp-ecdsa.key \
+	> /etc/ssl/private/smtp-ecdsa.key || false'
+ExecStartPre=/usr/bin/bash -c 'etcdctl get /x44.email/containers/%n/postfix/smtp-ecdsa.pem \
+	> /etc/ssl/certs/smtp-ecdsa.pem || false'
+ExecStart=/usr/bin/bash -c '\
+	/usr/bin/docker run --name %n \
+	--env-file=/etc/environment \
+	-p ${COREOS_PRIVATE_IPV4}:25:25 \
+	-p ${COREOS_PRIVATE_IPV4}:587:587 \
+	-v /etc/ssl/private/smtp-rsa.key:/etc/ssl/private/smtpd-rsa.key \
+	-v /etc/ssl/certs/smtp-rsa.pem:/etc/ssl/certs/smtpd-rsa.pem \
+	-v /etc/ssl/private/smtp-ecdsa.key:/etc/ssl/private/smtpd-ecdsa.key \
+	-v /etc/ssl/certs/smtp-ecdsa.pem:/etc/ssl/certs/smtpd-ecdsa.pem \
+	-e POSTFIX_MYHOSTNAME=$(/usr/bin/etcdctl get /x44.email/containers/%n/postfix/myhostname) \
+	-e POSTFIX_MYDOMAIN=$(/usr/bin/etcdctl get /x44.email/containers/%n/postfix/mydomain) \
+	-e POSTFIX_MYORIGIN=$(/usr/bin/etcdctl get /x44.email/containers/%n/postfix/myorigin) \
+	-e RSYSLOG_REMOTE=$(/usr/bin/etcdctl get /x44.email/services/rsyslog/remotehost) \
+	dawi2332/postfix'
 ExecStop=/usr/bin/docker stop %n
 ExecStopPost=/usr/bin/docker rm %n
 Restart=on-failure
